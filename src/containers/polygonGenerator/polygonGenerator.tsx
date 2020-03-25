@@ -10,13 +10,13 @@ export class PolygonGenerator extends Component {
         )
     }
 }
-
-const mapStateToProps = (state) => ({
+export default PolygonGenerator;
+// const mapStateToProps = (state) => ({
     
-})
+// })
 
-const mapDispatchToProps = {
+// const mapDispatchToProps = {
     
-}
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PolygonGenerator)
+//export default connect(mapStateToProps, mapDispatchToProps)(PolygonGenerator)

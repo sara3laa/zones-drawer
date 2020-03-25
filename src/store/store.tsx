@@ -29,7 +29,7 @@ export const loadState = () => {
   const rootReducer = combineReducers({
     markers: MarkersReducer,
 });
-export default function configureStore() {
+ function configureStore() {
     const middlewares = [thunkMiddleware];
     const middleWareEnhancer = applyMiddleware(...middlewares);
   
@@ -44,3 +44,6 @@ export default function configureStore() {
       }, 1000));
     return store;
   }
+  const store = configureStore();
+  export type AppDispatch = typeof store.dispatch;
+  export default  store;
