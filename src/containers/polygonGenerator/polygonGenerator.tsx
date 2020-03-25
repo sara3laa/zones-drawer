@@ -5,16 +5,27 @@ import {deleteFromMarkers} from '../../store/markers/actions';
 import GMarker from '../../components/gMarker'
 import {AppState} from '../../store/store';
 import GPolyline from '../../components/gPolyline'
+import GPolygon from '../../components/gPolygon/gPolygon';
 
 interface IPolygonProps{
  markers: MarkersState;
  deleteFromMarkers:typeof deleteFromMarkers;
 }
 interface IPolygonStats{
-  linePath: Marker[];
+  path: Marker[]; 
+  isPolygon: boolean;
 }
  class PolygonGenerator extends Component <IPolygonProps,IPolygonStats>{
-   
+
+     state: IPolygonStats ={
+         path: [],
+        isPolygon:false
+    }
+    handleOnClick(index:number){
+        if(index===0){
+            this.setState({isPolygon:true,path: this.props.markers.markers})
+        }
+    }
      handleOnRightClick(index:number){
       this.deletFromMarkers(index);
      }
@@ -30,13 +41,23 @@ interface IPolygonStats{
                     <GMarker 
                     key = {index}
                     position = {marker}
+                    onClick = {()=> this.handleOnClick(index)}
                     onRightClick={()=>this.handleOnRightClick(index)}
                     />
                 ))
             }
               <GPolyline
               path = {this.props.markers.markers}
-               />  
+               />
+               { this.state.isPolygon &&
+               <GPolygon
+               path = {this.state.path}
+               options = {{
+                   strokeColor:'red'
+               }}
+                />
+               }
+     
             </>
         )
     }

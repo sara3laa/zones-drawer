@@ -15,7 +15,7 @@ const GPolyline = (props:PolylineProps) => {
     return (
        <Polyline 
        path = {props.path}
-       options = {props.options? props.options:defaultOptiopns}
+       options = {props.options || defaultOptiopns}
        onDblClick = {props.onDblClick}
        />
     )

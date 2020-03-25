@@ -1,16 +1,23 @@
 import React from 'react';
-import { IPostion } from '../../constants/mapInterfaces';
-import {Polygon} from '@react-google-maps/api';
+import {Polygon,PolygonProps} from '@react-google-maps/api';
 
-interface IProps {
-path: IPostion[];
-options: google.maps.PolygonOptions
-}
-const GPolygon = (props:IProps) => {
+const defaultOptions: google.maps.PolygonOptions = {
+    fillColor: "gray",
+    fillOpacity: 1,
+    strokeColor: "gray",
+    strokeOpacity: 1,
+    strokeWeight: 2,
+    clickable: true,
+    draggable: false,
+    editable: false,
+    geodesic: true,
+    zIndex: 1
+} 
+const GPolygon = (props:PolygonProps) => {
     return (
         <Polygon 
          path = {props.path}
-         options = {props.options}
+         options = {props.options|| defaultOptions}
         />
     )
 }
