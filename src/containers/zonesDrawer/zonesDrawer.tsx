@@ -3,7 +3,7 @@ import GMap from '../../components/gMap'
 import {connect} from 'react-redux';
 import {addToMarkers} from '../../store/markers/actions';
 import {Marker} from '../../store/markers/types'
-import {AppDispatch} from '../../store/store';
+import PolygonsGenerator from '../polygonsGenerator';
 
 interface IZoneProps{
   addToMarkers: typeof addToMarkers;
@@ -45,6 +45,7 @@ interface IZoneProps{
                     }}
 
                 >
+                  <PolygonsGenerator />
 
                 </GMap>
         </div>

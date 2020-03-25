@@ -29,6 +29,7 @@ export const loadState = () => {
   const rootReducer = combineReducers({
     markers: MarkersReducer,
 });
+export type AppState = ReturnType<typeof rootReducer>;
  function configureStore() {
     const middlewares = [thunkMiddleware];
     const middleWareEnhancer = applyMiddleware(...middlewares);

@@ -7,7 +7,6 @@ import store from "./store";
 import * as serviceWorker from './serviceWorker';
 
 
-export type AppDispatch = typeof store.dispatch;
 ReactDOM.render(
   <React.StrictMode>
   <Provider store={store}>
