@@ -17,9 +17,8 @@ interface AddMarkerAction{
 }
 interface DeleteMarkerAction{
     type: typeof DELETE_MARKER;
-    meta: {
-        index: number;
-    }
+    index: number;
+    
 }
 interface ClearMarkersAction{
     type: typeof CLEAR_MARKERS;

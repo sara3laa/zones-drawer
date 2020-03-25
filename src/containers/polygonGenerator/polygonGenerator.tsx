@@ -1,14 +1,27 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {MarkersState} from '../../store/markers/types'
+import {MarkersState,Marker} from '../../store/markers/types'
+import {deleteFromMarkers} from '../../store/markers/actions';
 import GMarker from '../../components/gMarker'
 import {AppState} from '../../store/store';
 import GPolyline from '../../components/gPolyline'
 
 interface IPolygonProps{
  markers: MarkersState;
+ deleteFromMarkers:typeof deleteFromMarkers;
 }
- class PolygonGenerator extends Component <IPolygonProps>{
+interface IPolygonStats{
+  linePath: Marker[];
+}
+ class PolygonGenerator extends Component <IPolygonProps,IPolygonStats>{
+   
+     handleOnRightClick(index:number){
+      this.deletFromMarkers(index);
+     }
+     deletFromMarkers = (index:number)=>{
+        this.props.deleteFromMarkers(index);
+        
+     }
     render() {
         return (
             <>
@@ -17,6 +30,7 @@ interface IPolygonProps{
                     <GMarker 
                     key = {index}
                     position = {marker}
+                    onRightClick={()=>this.handleOnRightClick(index)}
                     />
                 ))
             }
@@ -30,10 +44,11 @@ interface IPolygonProps{
 
  const mapStateToProps = (state:AppState) => ({
     markers: state.markers,
+
  })
 
 // const mapDispatchToProps = {
     
 // }
 
-export default connect(mapStateToProps)(PolygonGenerator)
+export default connect(mapStateToProps,{deleteFromMarkers,})(PolygonGenerator)

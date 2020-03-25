@@ -14,9 +14,8 @@ export function addToMarkers(newMarker: Marker) {
 export function deleteFromMarkers(index: number){
     return {
         type : DELETE_MARKER,
-        meta: {
-            index,
-        }
+        index:  index,
+    
     };
 }
 export function clearMarkers(){

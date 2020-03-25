@@ -22,11 +22,11 @@ export function MarkersReducer(
           }
         }
       case  DELETE_MARKER: {
-        const index = action.meta.index;
-        const newState =  state.markers;
+        const index = action.index;
+        const newState =  [...state.markers];
          newState.splice(index,1)
         return{
-            markers: state.markers.splice(index,1)
+            markers: newState
         }
     }
     case CLEAR_MARKERS: {
