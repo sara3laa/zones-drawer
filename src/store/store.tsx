@@ -5,11 +5,12 @@ import {
  } from "redux";
 import thunkMiddleware from "redux-thunk";
 import {MarkersReducer} from './markers/reducers';
+import {ZonesReducer} from './zones/reducers';
 import { composeWithDevTools } from "redux-devtools-extension";
 import throttle from 'lodash.throttle';
 export const loadState = () => {
     try {
-      const serializedState = localStorage.getItem('state');
+      const serializedState = sessionStorage.getItem('state');
       if (serializedState === null) {
         return undefined;
       }
@@ -21,7 +22,7 @@ export const loadState = () => {
   export const saveState = (state: any) => {
     try {
       const serializedState = JSON.stringify(state);
-      localStorage.setItem('state', serializedState);
+      sessionStorage.setItem('state', serializedState);
       if(state !== null){
         return JSON.parse(state);
     }        
@@ -31,6 +32,7 @@ export const loadState = () => {
   };
   const rootReducer = combineReducers({
     markers: MarkersReducer,
+    zones: ZonesReducer,
 });
 export type AppState = ReturnType<typeof rootReducer>;
  function configureStore() {

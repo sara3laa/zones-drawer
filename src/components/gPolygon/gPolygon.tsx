@@ -13,12 +13,21 @@ const defaultOptions: google.maps.PolygonOptions = {
     geodesic: true,
     zIndex: 1
 } 
-const GPolygon = (props:PolygonProps) => {
+
+interface IProps {
+    polygonProps: PolygonProps,
+    children?: any,
+}
+const GPolygon = (props:IProps) => {
     return (
         <Polygon 
-         path = {props.path}
-         options = {props.options|| defaultOptions}
-        />
+         path = {props.polygonProps.path}
+         options = {props.polygonProps.options|| defaultOptions}
+         onClick = {props.polygonProps.onClick}
+         onRightClick = {props.polygonProps.onRightClick}
+        > 
+        {props.children}
+        </Polygon>
     )
 }
 

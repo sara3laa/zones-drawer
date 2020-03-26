@@ -7,12 +7,12 @@ import {download} from '../../utils/methods'
 const Layout = () => {
   const onExport = ():void => {
         const fileName:string = `zones${Date.now()}.json`;
-        const content =localStorage.getItem('state');
+        const content =sessionStorage.getItem('state');
         if(content!==null){
          const items:any = (JSON.parse(content));
-         const markers = JSON.stringify(items.markers)
+         const zones = JSON.stringify(items.zones)
         
-          download(markers,fileName,'text/plain');
+          download(zones,fileName,'text/plain');
         }
     }
     return (
