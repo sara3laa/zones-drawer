@@ -22,6 +22,9 @@ export const loadState = () => {
     try {
       const serializedState = JSON.stringify(state);
       localStorage.setItem('state', serializedState);
+      if(state !== null){
+        return JSON.parse(state);
+    }        
     } catch {
       // ignore write errors
     }
@@ -36,6 +39,7 @@ export type AppState = ReturnType<typeof rootReducer>;
   
     const store = createStore(
       rootReducer,
+      loadState(),
       composeWithDevTools(middleWareEnhancer)
     );
     store.subscribe(throttle(() => {

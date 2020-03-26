@@ -3,8 +3,7 @@ import {
   BrowserRouter,
 } from 'react-router-dom';
 
-import AuthRoutes from './components/authRoutes';
-import navContent from './constants/navContent';
+import Layout from './components/layout';
 
 
 
@@ -13,9 +12,7 @@ function App() {
   return (
     <>
         <BrowserRouter>
-          <AuthRoutes
-          routesProps ={navContent}
-          />
+           <Layout/>
         </BrowserRouter>
     </>
 
