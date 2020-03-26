@@ -2,11 +2,16 @@ import React from 'react'
 import GMap from '../../components/gMap'
 import {connect} from 'react-redux';
 import {addToMarkers} from '../../store/markers/actions';
-import {Marker} from '../../store/markers/types'
+import {Marker, MarkersState} from '../../store/markers/types'
+import {ZonesState} from '../../store/zones/types';
 import ZonesGenerator from '../zonesGenerator/ZonesGenerator';
+import { AppState } from '../../store/store';
+import { isLineIntersectPolygon, createLine } from '../../utils/methods';
 
 interface IZoneProps{
   addToMarkers: typeof addToMarkers;
+  markers: MarkersState;
+  zones: ZonesState;
 }
  class ZonesDrawer extends React.Component<IZoneProps>  {
    onMapClick = (event: google.maps.MouseEvent):Marker=> {
@@ -18,6 +23,22 @@ interface IZoneProps{
        }
       return marker;
 
+   }
+   checkOverLap = (marker:Marker) => {
+    if(this.props.zones.zones.length>0){
+     const len = this.props.markers.markers.length;
+     if(len>0) {
+       const lastmarker = this.props.markers.markers[len-1];
+       const line = createLine(marker,lastmarker);
+      for(let zone of this.props.zones.zones){
+       const isIntersected = isLineIntersectPolygon(line,zone.path);
+       if (isIntersected) {
+         return true;
+       }
+      }  
+     }
+    }
+     return false;
    }
    addToMarkers = (marker: Marker) =>{
     this.props.addToMarkers({
@@ -39,8 +60,10 @@ interface IZoneProps{
                         },
                         onClick : (event: google.maps.MouseEvent) => {
                           const marker = this.onMapClick(event);
-                           this.addToMarkers(marker);
-
+                        if(!this.checkOverLap(marker)){
+                             this.addToMarkers(marker);
+                        }
+                          
                         } 
                     }}
 
@@ -52,5 +75,9 @@ interface IZoneProps{
     )
  }
 }
+const mapStateToProps = (state:AppState) => ({
+  markers: state.markers,
+  zones: state.zones,
+})
 
-export default  connect(null, {addToMarkers,})(ZonesDrawer);
+export default  connect(mapStateToProps, {addToMarkers,})(ZonesDrawer);
