@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import GOverlayView from '../../components/gOverlayView'
 import { OverlayView } from '@react-google-maps/api';
-import {PhotoshopPicker} from 'react-color';
 import {
     InfoConatiner,
     InfoItem,
@@ -39,7 +38,7 @@ export class ZoneInfo extends Component<IProps,IState> {
                     getPixelPositionOffset:this.getPixelPositionOffset,
                 }}
             >
-                <>
+                <div  ref={ ref => ref && google.maps.OverlayView.preventMapHitsFrom(ref) }>
                 <InfoConatiner>
                     <InfoItem>
                         <InfoLable>{'Zone Name :'}</InfoLable>
@@ -53,11 +52,7 @@ export class ZoneInfo extends Component<IProps,IState> {
                     </InfoItem>
             <AddButton >{'Add Zone'}</AddButton>
                 </InfoConatiner>
-     {
-         this.state.showPicker &&
-         <PhotoshopPicker  />
-      }
-      </>
+        </div>
             </GOverlayView>
         )
     }

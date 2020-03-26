@@ -11,5 +11,6 @@ export const Map = styled(GoogleMap).attrs(()=> ({
     mapContainerStyle: {
       height: '100%',
       width: 'auto',
+      zIndex: 1,
     },
   }))``;
