@@ -9,6 +9,7 @@ import GPolyline from '../../components/gPolyline'
 import GPolygon from '../../components/gPolygon/gPolygon';
 import { ZonesState } from '../../store/zones/types';
 import { createLine, isLineIntersectPolygon } from '../../utils/methods';
+import ZoneInfo from '../zoneInfo/zoneInfo';
 
 interface IPolygonProps{
  markers: MarkersState;
@@ -73,10 +74,10 @@ interface IPolygonStats{
      }
      clearMarkers = () => {
          this.props.clearMarkers();
-         this.setState({
-             path:[],
-             isPolygon:false,
-         })
+        //  this.setState({
+        //      path:[],
+        //      isPolygon:false,
+        //  })
 
      }
     render() {
@@ -96,6 +97,7 @@ interface IPolygonStats{
               path = {this.props.markers.markers}
                />
                { this.state.isPolygon &&
+               <>
                <GPolygon
                polygonProps = {{
                path : this.state.path,
@@ -104,6 +106,10 @@ interface IPolygonStats{
                }
                }}
                 />
+                <ZoneInfo 
+                path = {this.state.path}
+                />
+                </>
                }
         
             </>
