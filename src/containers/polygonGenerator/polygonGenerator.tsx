@@ -10,7 +10,6 @@ import { ZonesState } from '../../store/zones/types';
 import { createLine, isLineIntersectPolygon, isPolygonInPolygon } from '../../utils/methods';
 import ZoneInfo from '../zoneInfo/zoneInfo';
 
-
 interface IPolygonProps{
  markers: MarkersState;
  zones: ZonesState;
@@ -23,7 +22,7 @@ interface IPolygonStats{
   isOpen : boolean;
   message: string;
 }
- class PolygonGenerator extends Component <IPolygonProps,IPolygonStats>{
+ export class PolygonGenerator extends Component <IPolygonProps,IPolygonStats>{
      state: IPolygonStats ={
          path: [],
         isPolygon:false,

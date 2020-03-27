@@ -21,6 +21,6 @@
   },
   "include": [
     "src",
-    "decs.d.ts"
-  ]
+    "decs.d.ts",
+  ],
 }
