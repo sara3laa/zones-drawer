@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {MarkersState,Marker} from '../../store/markers/types';
-import {addToZones} from '../../store/zones/actions';
-import {deleteFromMarkers,clearMarkers} from '../../store/markers/actions';
+import {deleteFromMarkers} from '../../store/markers/actions';
 import GMarker from '../../components/gMarker'
 import {AppState} from '../../store/store';
 import GPolyline from '../../components/gPolyline'
@@ -15,8 +14,7 @@ interface IPolygonProps{
  markers: MarkersState;
  zones: ZonesState;
  deleteFromMarkers:typeof deleteFromMarkers;
- addToZones: typeof addToZones;
- clearMarkers: typeof clearMarkers;
+ 
 }
 interface IPolygonStats{
   path: Marker[]; 
@@ -28,11 +26,12 @@ interface IPolygonStats{
          path: [],
         isPolygon:false
     }
+    handleFromInfo = () =>{
+        this.setState({isPolygon:false});
+    }
     handleOnClick(index:number){
         if(index===0){
             this.setState({isPolygon:true,path: this.props.markers.markers})
-            this.addToZones();
-            this.clearMarkers();
         }
     }
     checkOverLap = (index:number) =>{
@@ -64,22 +63,7 @@ interface IPolygonStats{
         this.props.deleteFromMarkers(index);
         
      }
-     addToZones = () => {
-         this.props.addToZones({
-             path: this.props.markers.markers,
-             name: "lol",
-             color: "red",
-
-         });
-     }
-     clearMarkers = () => {
-         this.props.clearMarkers();
-        //  this.setState({
-        //      path:[],
-        //      isPolygon:false,
-        //  })
-
-     }
+   
     render() {
         return (
             <>
@@ -96,7 +80,7 @@ interface IPolygonStats{
               <GPolyline
               path = {this.props.markers.markers}
                />
-               { this.state.isPolygon &&
+               { this.state.isPolygon && this.props.markers.markers.length > 0  &&
                <>
                <GPolygon
                polygonProps = {{
@@ -106,9 +90,8 @@ interface IPolygonStats{
                }
                }}
                 />
-                <ZoneInfo 
-                path = {this.state.path}
-                />
+                <ZoneInfo  path = {this.state.path} 
+                handleFromInfo = {this.handleFromInfo} /> 
                 </>
                }
         
@@ -123,8 +106,6 @@ interface IPolygonStats{
 
  })
 
-// const mapDispatchToProps = {
-    
-// }
 
-export default connect(mapStateToProps,{deleteFromMarkers,addToZones,clearMarkers})(PolygonGenerator)
+
+export default connect(mapStateToProps,{deleteFromMarkers})(PolygonGenerator)
