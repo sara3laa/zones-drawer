@@ -46,7 +46,8 @@ export type AppState = ReturnType<typeof rootReducer>;
     );
     store.subscribe(throttle(() => {
         saveState({
-          markers: store.getState().markers
+          markers: store.getState().markers,
+          zones: store.getState().zones,
         });
       }, 1000));
     return store;

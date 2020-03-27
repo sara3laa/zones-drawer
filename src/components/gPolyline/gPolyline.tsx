@@ -7,7 +7,7 @@ const defaultOptiopns:google.maps.PolylineOptions = {
     strokeWeight: 1,
     clickable: true,
     draggable: false,
-    editable: true,
+    editable: false,
     geodesic: false,
     zIndex: 1
 }

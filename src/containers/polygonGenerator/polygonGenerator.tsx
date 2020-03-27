@@ -9,6 +9,8 @@ import GPolygon from '../../components/gPolygon/gPolygon';
 import { ZonesState } from '../../store/zones/types';
 import { createLine, isLineIntersectPolygon } from '../../utils/methods';
 import ZoneInfo from '../zoneInfo/zoneInfo';
+import { Snackbar } from '@material-ui/core';
+import SnackBar from '../../components/snackBar/snackBar';
 
 interface IPolygonProps{
  markers: MarkersState;
@@ -19,12 +21,14 @@ interface IPolygonProps{
 interface IPolygonStats{
   path: Marker[]; 
   isPolygon: boolean;
+  openSnackBar: boolean;
 }
  class PolygonGenerator extends Component <IPolygonProps,IPolygonStats>{
 
      state: IPolygonStats ={
          path: [],
-        isPolygon:false
+        isPolygon:false,
+        openSnackBar:false
     }
     handleFromInfo = () =>{
         this.setState({isPolygon:false});
@@ -53,7 +57,7 @@ interface IPolygonStats{
     }
      handleOnRightClick(index:number){
     if(this.checkOverLap(index)){
-      alert("to delete this marker delete maker before or after to avoid zones overlapping");
+      this.setState({openSnackBar:true})
     }
     else  {
       this.deletFromMarkers(index);
@@ -94,7 +98,9 @@ interface IPolygonStats{
                 handleFromInfo = {this.handleFromInfo} /> 
                 </>
                }
-        
+        <SnackBar  isOpen = {this.state.openSnackBar} type="error"
+        message = "to delete this marker delete maker before or after to avoid zones overlapping"
+        />
             </>
         )
     }
