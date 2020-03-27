@@ -105,7 +105,7 @@ export class ZoneInfo extends Component<IProps, IState> {
                     </InfoConatiner>
                     { this.state.showPicker &&
                     <ColorPickerContainer>
-                        <SketchPicker width={'90%'}
+                        <SketchPicker width={'100%'}
                         color={this.state.color}   onChangeComplete={ this.handleChangeComplete } />
                     </ColorPickerContainer>
                     }     

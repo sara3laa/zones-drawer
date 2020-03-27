@@ -2,6 +2,9 @@ import styled from 'styled-components';
 export const ZonInfoContainer = styled.div`
 width: 400px;
 height: 200px;
+display: flex;
+flex-direction: row-reverse;
+justify-content: space-around;
 @media(max-width:${({theme})=> theme.mobile}){
     width: 300px;
     height: 100px;
@@ -37,8 +40,8 @@ background-color: #c3c3cf;
 `;
 export const ColorPickerContainer= styled.div`
 background-color: '#ddd';
- padding: 20px;
- width: 200px;
+ padding: 10px;
+ width: 300px;
  height: 100px;
  @media(max-width:${({theme})=> theme.mobile}){
     width: 150px;
