@@ -29,7 +29,7 @@ const  Header = (props: IProps)=> {
           <Typography variant="h6" className={classes.title}>
             {'Zones Drawer'}
           </Typography>
-          <IconButton  color="inherit" onClick = {()=>{props.onExportClick()}}>
+          <IconButton color="inherit" onClick = {()=>{props.onExportClick()}}>
             <GetAppIcon />
           </IconButton>
         </Toolbar>

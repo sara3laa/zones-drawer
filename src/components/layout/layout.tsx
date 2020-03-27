@@ -10,14 +10,16 @@ const Layout = () => {
         const content =sessionStorage.getItem('state');
         if(content!==null){
          const items:any = (JSON.parse(content));
+         if(items.zones.zones.length){
          const zones = JSON.stringify(items.zones)
-        
-          download(zones,fileName,'text/plain');
+           console.log(zones)
+              download(zones,fileName,'text/plain');
+         }
         }
     }
     return (
         <AppContainer>
-            <Header onExportClick={onExport}/>
+            <Header   onExportClick={onExport}/>
          <AuthRoutes
           routesProps ={navContent}
           />

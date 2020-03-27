@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import GOverlayView from '../../components/gOverlayView'
 import { OverlayView } from '@react-google-maps/api';
-import { Panel as ColorPickerPanel } from 'rc-color-picker';
 import {SketchPicker} from 'react-color'
 import {addToZones} from '../../store/zones/actions';
 import {MarkersState, Marker} from '../../store/markers/types';
@@ -19,7 +18,6 @@ import {
 } from './Atom';
 import { AppState } from '../../store/store';
 
-
 interface IProps {
     markers: MarkersState;
     zones: ZonesState;
@@ -33,9 +31,11 @@ interface IState {
     name: string;
     showPicker: boolean;
 }
+  
 export class ZoneInfo extends Component<IProps, IState> {
+  
     state: IState = {
-        color: '',
+        color: '#fff',
         name: '',
         showPicker: false,
     }
@@ -57,15 +57,24 @@ export class ZoneInfo extends Component<IProps, IState> {
         })
 
     }
+    isColorUnique = () => {
+       for(let zone of this.props.zones.zones){
+           if(zone.color === this.state.color)
+              return false;
+       }
+       return true;
+    }
     handleOnClick = () => {
+        if(this.isColorUnique()){
         this.addToZones();
         this.clearMarkers();
         this.props.handleFromInfo();
-
+        }
     }
-   onColorChange = (Object:any) => {
-       this.setState({color:Object.color});
-   }
+    handleChangeComplete = (color:any) => {
+        this.setState({ color: color.hex });
+      };
+    
     render() {
         const index = this.props.path.length - 1;
         return (
@@ -88,13 +97,16 @@ export class ZoneInfo extends Component<IProps, IState> {
                             <InfoLable>{'Choose Color:'}</InfoLable>
                             <InfoInput value = {this.state.color} onChange = {(e)=> {}} onClick={(e) => { this.setState({ showPicker: true }) }} />
                         </InfoItem>
-                        <AddButton onClick = {()=>{
+                        <AddButton 
+                        disabled = {!this.state.name|| !this.state.color }
+                        onClick = {()=>{
                                 this.handleOnClick();
                         }}>{'Add Zone'}</AddButton>
                     </InfoConatiner>
                     { this.state.showPicker &&
                     <ColorPickerContainer>
-                        <SketchPicker width={'90%'} onChangeComplete={this.onColorChange} />
+                        <SketchPicker width={'90%'}
+                        color={this.state.color}   onChangeComplete={ this.handleChangeComplete } />
                     </ColorPickerContainer>
                     }     
             
@@ -109,4 +121,4 @@ const mapStateToProps = (state:AppState) => ({
 
  })
 
-export default connect(mapStateToProps,{addToZones,clearMarkers}) (ZoneInfo)
+export default connect(mapStateToProps,{addToZones,clearMarkers}) ( ZoneInfo)
