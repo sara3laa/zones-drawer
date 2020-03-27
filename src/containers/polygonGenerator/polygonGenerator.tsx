@@ -9,8 +9,6 @@ import GPolygon from '../../components/gPolygon/gPolygon';
 import { ZonesState } from '../../store/zones/types';
 import { createLine, isLineIntersectPolygon, isPolygonInPolygon } from '../../utils/methods';
 import ZoneInfo from '../zoneInfo/zoneInfo';
-import { toast } from 'react-toastify';
-import SnackBar from '../../components/snackBar/snackBar';
 
 
 interface IPolygonProps{
@@ -53,7 +51,7 @@ interface IPolygonStats{
     handleOnClick(index:number){
         if(index===0){
            if(this.checkISPolygonInPolygon()) {
-                this.setState({message:"Can't create Zone in a Zone",isOpen:true});
+                alert("Can't create Zone in a Zone");
            }else{
             this.setState({isPolygon:true,path: this.props.markers.markers})
            }
@@ -78,7 +76,7 @@ interface IPolygonStats{
     }
      handleOnRightClick(index:number){
     if(this.checkOverLap(index)){
-     this.setState({message:"To Delete this Marker Delete one more before Or After",isOpen:true});
+     alert("To Delete this Marker Delete one more before Or After");
     }
     else  {
       this.deletFromMarkers(index);
@@ -118,14 +116,6 @@ interface IPolygonStats{
                 <ZoneInfo  path = {this.state.path} 
                 handleFromInfo = {this.handleFromInfo} /> 
                 </>
-               }
-               {this.state.isOpen &&
-               <SnackBar 
-               type = {'error'}
-               open= {this.state.isOpen}
-                message ={this.state.message}
-                handleClose = {this.snackBarColse}
-                />
                }
             </>
         )

@@ -17,7 +17,6 @@ import {
     ColorPickerContainer,
 } from './Atom';
 import { AppState } from '../../store/store';
-
 interface IProps {
     markers: MarkersState;
     zones: ZonesState;
@@ -69,6 +68,8 @@ export class ZoneInfo extends Component<IProps, IState> {
         this.addToZones();
         this.clearMarkers();
         this.props.handleFromInfo();
+        } else {
+           alert("there is a zone with this color !!")
         }
     }
     handleChangeComplete = (color:any) => {
