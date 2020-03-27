@@ -10,6 +10,7 @@ import { ZonesState } from '../../store/zones/types';
 import { createLine, isLineIntersectPolygon, isPolygonInPolygon } from '../../utils/methods';
 import ZoneInfo from '../zoneInfo/zoneInfo';
 import { toast } from 'react-toastify';
+import SnackBar from '../../components/snackBar/snackBar';
 
 
 interface IPolygonProps{
@@ -21,11 +22,15 @@ interface IPolygonProps{
 interface IPolygonStats{
   path: Marker[]; 
   isPolygon: boolean;
+  isOpen : boolean;
+  message: string;
 }
  class PolygonGenerator extends Component <IPolygonProps,IPolygonStats>{
      state: IPolygonStats ={
          path: [],
         isPolygon:false,
+        isOpen: false,
+        message:"",
     }
     handleFromInfo = () =>{
         this.setState({isPolygon:false});
@@ -42,16 +47,13 @@ interface IPolygonStats{
             return false;
         
     }
-    notify = (message:string) => {
-        toast.configure();
-        toast.error(message, {
-            position: toast.POSITION.TOP_LEFT
-          });
+    snackBarColse = () => {
+       this.setState({isOpen:false});
     }
     handleOnClick(index:number){
         if(index===0){
            if(this.checkISPolygonInPolygon()) {
-                this.notify("Can't create Zone in a Zone");
+                this.setState({message:"Can't create Zone in a Zone",isOpen:true});
            }else{
             this.setState({isPolygon:true,path: this.props.markers.markers})
            }
@@ -76,7 +78,7 @@ interface IPolygonStats{
     }
      handleOnRightClick(index:number){
     if(this.checkOverLap(index)){
-     this.notify("To Delete this Marker Delete one more before Or After");
+     this.setState({message:"To Delete this Marker Delete one more before Or After",isOpen:true});
     }
     else  {
       this.deletFromMarkers(index);
@@ -116,6 +118,14 @@ interface IPolygonStats{
                 <ZoneInfo  path = {this.state.path} 
                 handleFromInfo = {this.handleFromInfo} /> 
                 </>
+               }
+               {this.state.isOpen &&
+               <SnackBar 
+               type = {'error'}
+               open= {this.state.isOpen}
+                message ={this.state.message}
+                handleClose = {this.snackBarColse}
+                />
                }
             </>
         )

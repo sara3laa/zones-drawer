@@ -1,39 +1,28 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
+import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps,Color } from "@material-ui/lab/Alert";
- interface State extends SnackbarOrigin {
-  open: boolean;
-}
 interface IProps {
   message: string;
   type: Color ;
+  handleClose: () => void;
+  open: boolean;
+
 }
 const Alert = (props: AlertProps)  =>{
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 const SnackBar = (props:  IProps) => {
-  const [state, setState] = React.useState<State>({
-    open: true,
-    vertical: 'top',
-    horizontal: 'center',
-  });
-  const { vertical, horizontal, open } = state;
-
-  const handleClose = () => {
-    setState({ ...state, open: false });
-  };
-
+     const vertical = 'top';
+     const horizontal = 'center';
   return (
     <div>
     <Snackbar
       anchorOrigin={{ vertical, horizontal }}
-      key={`${vertical},${horizontal}`}
-      open={open}
-      onClose={handleClose}
-      message="I love snacks"
+      open={props.open}
+      onClose={props.handleClose}
+      message={props.message}
     >
-      <Alert onClose={handleClose} severity={props.type}>
+      <Alert onClose={props.handleClose} severity={props.type}>
         {props.message}
       </Alert>
     </Snackbar>

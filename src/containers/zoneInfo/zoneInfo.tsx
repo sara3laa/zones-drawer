@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import GOverlayView from '../../components/gOverlayView'
 import { OverlayView } from '@react-google-maps/api';
-import { PhotoshopPicker } from 'react-color';
+import { Panel as ColorPickerPanel } from 'rc-color-picker';
+import {SketchPicker} from 'react-color'
 import {addToZones} from '../../store/zones/actions';
 import {MarkersState, Marker} from '../../store/markers/types';
 import {clearMarkers} from '../../store/markers/actions';
 import { ZonesState } from '../../store/zones/types';
 import {
+    ZonInfoContainer,
     InfoConatiner,
     InfoItem,
     InfoLable,
     InfoInput,
-    AddButton,} from './Atom';
+    AddButton,
+    ColorPickerContainer,
+} from './Atom';
 import { AppState } from '../../store/store';
 
 
@@ -31,7 +35,7 @@ interface IState {
 }
 export class ZoneInfo extends Component<IProps, IState> {
     state: IState = {
-        color: '#A81515',
+        color: '',
         name: '',
         showPicker: false,
     }
@@ -59,7 +63,9 @@ export class ZoneInfo extends Component<IProps, IState> {
         this.props.handleFromInfo();
 
     }
-
+   onColorChange = (Object:any) => {
+       this.setState({color:Object.color});
+   }
     render() {
         const index = this.props.path.length - 1;
         return (
@@ -70,7 +76,7 @@ export class ZoneInfo extends Component<IProps, IState> {
                     getPixelPositionOffset: this.getPixelPositionOffset,
                 }}
             >
-                <div ref={ref => ref && google.maps.OverlayView.preventMapHitsFrom(ref)}>
+                <ZonInfoContainer ref={ref => ref && google.maps.OverlayView.preventMapHitsFrom(ref)}>
                     <InfoConatiner>
                         <InfoItem>
                             <InfoLable>{'Zone Name :'}</InfoLable>
@@ -87,22 +93,12 @@ export class ZoneInfo extends Component<IProps, IState> {
                         }}>{'Add Zone'}</AddButton>
                     </InfoConatiner>
                     { this.state.showPicker &&
-                    <PhotoshopPicker
-                        color={this.state.color}
-                      onChangeComplete={color => {
-                       this.setState({color: color.hex});
-                     }}
-                     onAccept ={ () => {
-                        this.setState({showPicker:false})
-                     }
-                     }
-                     onCancel = {()=>{
-                         this.setState({color:'#A81515',showPicker:false})
-                     } }
-                    />
+                    <ColorPickerContainer>
+                        <SketchPicker width={'90%'} onChangeComplete={this.onColorChange} />
+                    </ColorPickerContainer>
                     }     
             
-        </div>
+        </ZonInfoContainer>
             </GOverlayView>
         )
     }

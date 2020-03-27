@@ -25,6 +25,8 @@
     "geometric": "^2.2.1",
     "lodash": "^4.17.15",
     "lodash.throttle": "^4.1.1",
+    "material-ui-color-picker": "^3.5.0",
+    "rc-color-picker": "^1.2.6",
     "react": "^16.13.1",
     "react-color": "^2.18.0",
     "react-dom": "^16.13.1",
