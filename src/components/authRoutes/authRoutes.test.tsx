@@ -1,5 +1,5 @@
 import React from 'react';
-import {configure,shallow} from 'enzyme';
+import {configure,shallow,ShallowWrapper} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import AuthRoutes from './authRoutes';
 import  {
@@ -9,13 +9,16 @@ import  {
 configure({adapter: new Adapter()});
 
 describe('<AuthRoutes/>',()=>{
+    let wrapper:ShallowWrapper;
+    const routerArr: RouteProps[]=[{
+        path:"/",
+    }, {
+        path: "/log"
+    }] 
+    beforeEach(()=>{
+          wrapper = shallow(<AuthRoutes routesProps={routerArr} />);
+    });
     it('should at least have your all  <Route> based on routesProps Arr ',()=>{
-        const routerArr: RouteProps[]=[{
-            path:"/",
-        }, {
-            path: "/log"
-        }] 
-        const wrapper = shallow(<AuthRoutes routesProps={routerArr} />);
         expect(wrapper.find(Route)).toHaveLength(routerArr.length);
     });
 });
