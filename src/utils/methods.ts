@@ -1,4 +1,4 @@
-import { checkIntersection } from "./gemoetry";
+import { checkPolygonLineIntersection, checkPolygonInPolygonIntersection } from "./gemoetry";
 
 interface IMarker{
     lat: number,
@@ -30,6 +30,12 @@ export const download = (content:BlobPart , fileName: string, contentType:string
  }
  export const isLineIntersectPolygon = (line:number[], path: IMarker[]) : boolean =>{
      const polygon = fromObjectArrToValuesArr(path);
-    return checkIntersection(line,polygon);
+    return checkPolygonLineIntersection(line,polygon);
 
+ }
+ export const isPolygonInPolygon = (oldPath: IMarker[], newPath: IMarker[]) : boolean => {
+     const newPolygon = fromObjectArrToValuesArr(newPath);
+     const oldPolygon = fromObjectArrToValuesArr(oldPath);
+     console.log(oldPolygon,newPolygon)
+     return checkPolygonInPolygonIntersection(oldPolygon, newPolygon);
  }

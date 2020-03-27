@@ -6,7 +6,6 @@ import MuiAlert, { AlertProps,Color } from "@material-ui/lab/Alert";
   open: boolean;
 }
 interface IProps {
-  isOpen : boolean;
   message: string;
   type: Color ;
 }
@@ -15,7 +14,7 @@ const Alert = (props: AlertProps)  =>{
   }
 const SnackBar = (props:  IProps) => {
   const [state, setState] = React.useState<State>({
-    open: props.isOpen,
+    open: true,
     vertical: 'top',
     horizontal: 'center',
   });

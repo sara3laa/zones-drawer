@@ -7,10 +7,10 @@ import {AppState} from '../../store/store';
 import GPolyline from '../../components/gPolyline'
 import GPolygon from '../../components/gPolygon/gPolygon';
 import { ZonesState } from '../../store/zones/types';
-import { createLine, isLineIntersectPolygon } from '../../utils/methods';
+import { createLine, isLineIntersectPolygon, isPolygonInPolygon } from '../../utils/methods';
 import ZoneInfo from '../zoneInfo/zoneInfo';
-import { Snackbar } from '@material-ui/core';
-import SnackBar from '../../components/snackBar/snackBar';
+import { toast } from 'react-toastify';
+
 
 interface IPolygonProps{
  markers: MarkersState;
@@ -21,21 +21,40 @@ interface IPolygonProps{
 interface IPolygonStats{
   path: Marker[]; 
   isPolygon: boolean;
-  openSnackBar: boolean;
 }
  class PolygonGenerator extends Component <IPolygonProps,IPolygonStats>{
-
      state: IPolygonStats ={
          path: [],
         isPolygon:false,
-        openSnackBar:false
     }
     handleFromInfo = () =>{
         this.setState({isPolygon:false});
     }
+    checkISPolygonInPolygon = () => {
+        if(this.props.zones.zones.length >0){
+            for(let zone of this.props.zones.zones) {
+                const isInPolygon:boolean = isPolygonInPolygon(zone.path,this.props.markers.markers);
+                    if(isInPolygon){
+                        return true;
+                    }
+            }
+        }
+            return false;
+        
+    }
+    notify = (message:string) => {
+        toast.configure();
+        toast.error(message, {
+            position: toast.POSITION.TOP_LEFT
+          });
+    }
     handleOnClick(index:number){
         if(index===0){
+           if(this.checkISPolygonInPolygon()) {
+                this.notify("Can't create Zone in a Zone");
+           }else{
             this.setState({isPolygon:true,path: this.props.markers.markers})
+           }
         }
     }
     checkOverLap = (index:number) =>{
@@ -57,7 +76,7 @@ interface IPolygonStats{
     }
      handleOnRightClick(index:number){
     if(this.checkOverLap(index)){
-      this.setState({openSnackBar:true})
+     this.notify("To Delete this Marker Delete one more before Or After");
     }
     else  {
       this.deletFromMarkers(index);
@@ -70,7 +89,7 @@ interface IPolygonStats{
    
     render() {
         return (
-            <>
+            <>       
             {
                 this.props.markers.markers.map((marker,index)=>(
                     <GMarker 
@@ -98,9 +117,6 @@ interface IPolygonStats{
                 handleFromInfo = {this.handleFromInfo} /> 
                 </>
                }
-        <SnackBar  isOpen = {this.state.openSnackBar} type="error"
-        message = "to delete this marker delete maker before or after to avoid zones overlapping"
-        />
             </>
         )
     }
