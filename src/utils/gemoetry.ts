@@ -8,3 +8,9 @@ export const checkPolygonInPolygonIntersection = (fPolygon:any, sPolygon:any) =>
    const isIntersected = geometric.polygonInPolygon(fPolygon , sPolygon);
    return isIntersected;
 }
+
+
+export const checkPolygonIntersectPolygon = (fPolygon:any, sPolygon:any) => {
+   const isIntersected = geometric.polygonIntersectsPolygon(fPolygon , sPolygon);
+   return isIntersected;
+}

@@ -1,4 +1,4 @@
-import { checkPolygonLineIntersection, checkPolygonInPolygonIntersection } from "./gemoetry";
+import { checkPolygonLineIntersection, checkPolygonInPolygonIntersection,checkPolygonIntersectPolygon } from "./gemoetry";
 
 interface IMarker{
     lat: number,
@@ -37,5 +37,5 @@ export const download = (content:BlobPart , fileName: string, contentType:string
      const newPolygon = fromObjectArrToValuesArr(newPath);
      const oldPolygon = fromObjectArrToValuesArr(oldPath);
      console.log(oldPolygon,newPolygon)
-     return checkPolygonInPolygonIntersection(oldPolygon, newPolygon);
+     return (checkPolygonInPolygonIntersection(oldPolygon, newPolygon)||checkPolygonIntersectPolygon(oldPolygon,newPolygon) );
  }
